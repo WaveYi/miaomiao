@@ -23,13 +23,13 @@
                         <p>{{ item.rt }}</p>
                     </div>
                 </li> -->
-                <li>
-                    <div class="img"><img src="@/assets/DarkKnight.jpeg" alt=""></div>
+                <li v-for="item in moviesList" :key="item.id">
+                    <div class="img"><img :src="item.img | setWH('128.180')" alt=""></div>
                     <div class="info">
-                        <h2>黑暗骑士</h2>
-                        <p>观众评<span class="grade">9.9</span></p>
-                        <p>主演：克里斯蒂安贝尔，汤姆哈迪</p>
-                        <p>今天55家影院放映907场</p>
+                        <p><span>{{item.nm}}</span></p>
+                        <p>{{item.enm}}</p>
+                        <p>{{item.cat}}</p>
+                        <p>{{item.rt}}</p>
                     </div>
                     <div class="btn_mall">
                         购票
@@ -41,7 +41,43 @@
 </template>
 <script>
     export default {
-        name: 'Search'
+        name: 'Search',
+        data() {
+            return{
+                message:'',
+                moviesList:[]
+            }
+        },
+        methods: {
+            cancelRequest(){
+                if(typeof this.source === 'function'){
+                    this.source('终止请求')
+                }
+            },
+        },
+        watch :{
+            message(newVal){
+                var that = this;
+                this.cancelRequest();
+                this.axios.get('/api/searchList?cityId=10&kw='+newVal,{
+                    cancelToken: new this.axios.CancelToken(function(c){
+                        that.source = c;
+                    })
+                }).then((res)=>{
+                    var msg = res.data.msg;
+                    var movies = res.data.data.movies;
+                    if(msg && movies){
+                        this.moviesList = res.data.data.movies.list;
+                    }
+                }).catch((err)=>{
+                    if(this.axios.isCancel(err)){
+                        console.log('Request canceled', err.message);
+                    }else{
+                        console.log(err);
+                    }
+                })
+            }
+        },
     }
 </script>
 <style scoped>
