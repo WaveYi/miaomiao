@@ -1,97 +1,13 @@
 <template>
     <div class="movie_body">
         <ul>
-            <li>
-                <div class="pic_show"><img src="@/assets/avengers4.jpeg" alt=""></div>
+            <li v-for="item in comingList" :key = "item.id">
+                <div class="pic_show"><img :src="item.img | setWH('128.180')" alt=""></div>
                 <div class="info_list">
-                    <h2>复仇者联盟4</h2>
-                    <p>观众评<span class="grade">9.2</span></p>
-                    <p>主演：小罗伯特唐尼，克里斯海姆斯沃斯</p>
-                    <p>今天55家影院放映607场</p>
-                </div>
-                <div class="btn_mall">
-                    购票
-                </div>
-            </li>
-            <li>
-                <div class="pic_show"><img src="@/assets/DarkKnight.jpeg" alt=""></div>
-                <div class="info_list">
-                    <h2>黑暗骑士</h2>
-                    <p>观众评<span class="grade">9.9</span></p>
-                    <p>主演：克里斯蒂安贝尔，汤姆哈迪</p>
-                    <p>今天55家影院放映907场</p>
-                </div>
-                <div class="btn_mall">
-                    购票
-                </div>
-            </li>
-            <li>
-                <div class="pic_show"><img src="@/assets/avengers4.jpeg" alt=""></div>
-                <div class="info_list">
-                    <h2>复仇者联盟4</h2>
-                    <p>观众评<span class="grade">9.2</span></p>
-                    <p>主演：小罗伯特唐尼，克里斯海姆斯沃斯</p>
-                    <p>今天55家影院放映607场</p>
-                </div>
-                <div class="btn_mall">
-                    购票
-                </div>
-            </li>
-            <li>
-                <div class="pic_show"><img src="@/assets/DarkKnight.jpeg" alt=""></div>
-                <div class="info_list">
-                    <h2>黑暗骑士</h2>
-                    <p>观众评<span class="grade">9.9</span></p>
-                    <p>主演：克里斯蒂安贝尔，汤姆哈迪</p>
-                    <p>今天55家影院放映907场</p>
-                </div>
-                <div class="btn_mall">
-                    购票
-                </div>
-            </li>
-            <li>
-                <div class="pic_show"><img src="@/assets/avengers4.jpeg" alt=""></div>
-                <div class="info_list">
-                    <h2>复仇者联盟4</h2>
-                    <p>观众评<span class="grade">9.2</span></p>
-                    <p>主演：小罗伯特唐尼，克里斯海姆斯沃斯</p>
-                    <p>今天55家影院放映607场</p>
-                </div>
-                <div class="btn_mall">
-                    购票
-                </div>
-            </li>
-            <li>
-                <div class="pic_show"><img src="@/assets/DarkKnight.jpeg" alt=""></div>
-                <div class="info_list">
-                    <h2>黑暗骑士</h2>
-                    <p>观众评<span class="grade">9.9</span></p>
-                    <p>主演：克里斯蒂安贝尔，汤姆哈迪</p>
-                    <p>今天55家影院放映907场</p>
-                </div>
-                <div class="btn_mall">
-                    购票
-                </div>
-            </li>
-            <li>
-                <div class="pic_show"><img src="@/assets/avengers4.jpeg" alt=""></div>
-                <div class="info_list">
-                    <h2>复仇者联盟4</h2>
-                    <p>观众评<span class="grade">9.2</span></p>
-                    <p>主演：小罗伯特唐尼，克里斯海姆斯沃斯</p>
-                    <p>今天55家影院放映607场</p>
-                </div>
-                <div class="btn_mall">
-                    购票
-                </div>
-            </li>
-            <li>
-                <div class="pic_show"><img src="@/assets/DarkKnight.jpeg" alt=""></div>
-                <div class="info_list">
-                    <h2>黑暗骑士</h2>
-                    <p>观众评<span class="grade">9.9</span></p>
-                    <p>主演：克里斯蒂安贝尔，汤姆哈迪</p>
-                    <p>今天55家影院放映907场</p>
+                    <h2>{{item.nm}}</h2>
+                    <p><span class="grade">{{item.wish}}</span>人想看</p>
+                    <p>主演：{{item.star}}</p>
+                    <p>上映日期：{{item.rt}}</p>
                 </div>
                 <div class="btn_mall">
                     购票
@@ -102,7 +18,20 @@
 </template>
 <script>
     export default {
-        name:'ComingSoon'
+        name:'ComingSoon',
+        data(){
+            return{
+                comingList : []
+            }
+        },
+        mounted(){
+            this.axios.get('/api/movieComingList?cityId=10').then((res)=>{
+                var msg = res.data.msg;
+                if(msg ==='ok'){
+                    this.comingList = res.data.data.comingList;
+                }
+            })
+        },
     }
 </script>
 <style scoped>

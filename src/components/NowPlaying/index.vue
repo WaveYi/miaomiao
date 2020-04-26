@@ -1,97 +1,13 @@
 <template>
     <div class="movie_body">
         <ul>
-            <li>
-                <div class="pic_show"><img src="@/assets/LordOfTheFlies.jpeg" alt=""></div>
+            <li v-for="item in movieList" :key="item.id">
+                <div class="pic_show"><img :src="item.img | setWH('128.180')" alt=""></div>
                 <div class="info_list">
-                    <h2>蝇王</h2>
-                    <p>观众评<span class="grade">9.2</span></p>
-                    <p>主演：Chris Furrh，Danuel Pipoly</p>
-                    <p>今天55家影院放映607场</p>
-                </div>
-                <div class="btn_mall">
-                    购票
-                </div>
-            </li>
-            <li>
-                <div class="pic_show"><img src="@/assets/TheGodFather.jpeg" alt=""></div>
-                <div class="info_list">
-                    <h2>教父</h2>
-                    <p>观众评<span class="grade">9.9</span></p>
-                    <p>主演：马龙·白兰度，阿尔·帕西诺</p>
-                    <p>今天55家影院放映907场</p>
-                </div>
-                <div class="btn_mall">
-                    购票
-                </div>
-            </li>
-            <li>
-                <div class="pic_show"><img src="@/assets/LordOfTheFlies.jpeg" alt=""></div>
-                <div class="info_list">
-                    <h2>蝇王</h2>
-                    <p>观众评<span class="grade">9.2</span></p>
-                    <p>主演：Chris Furrh，Danuel Pipoly</p>
-                    <p>今天55家影院放映607场</p>
-                </div>
-                <div class="btn_mall">
-                    购票
-                </div>
-            </li>
-            <li>
-                <div class="pic_show"><img src="@/assets/TheGodFather.jpeg" alt=""></div>
-                <div class="info_list">
-                    <h2>教父</h2>
-                    <p>观众评<span class="grade">9.9</span></p>
-                    <p>主演：马龙·白兰度，阿尔·帕西诺</p>
-                    <p>今天55家影院放映907场</p>
-                </div>
-                <div class="btn_mall">
-                    购票
-                </div>
-            </li>
-            <li>
-                <div class="pic_show"><img src="@/assets/LordOfTheFlies.jpeg" alt=""></div>
-                <div class="info_list">
-                    <h2>蝇王</h2>
-                    <p>观众评<span class="grade">9.2</span></p>
-                    <p>主演：Chris Furrh，Danuel Pipoly</p>
-                    <p>今天55家影院放映607场</p>
-                </div>
-                <div class="btn_mall">
-                    购票
-                </div>
-            </li>
-            <li>
-                <div class="pic_show"><img src="@/assets/TheGodFather.jpeg" alt=""></div>
-                <div class="info_list">
-                    <h2>教父</h2>
-                    <p>观众评<span class="grade">9.9</span></p>
-                    <p>主演：马龙·白兰度，阿尔·帕西诺</p>
-                    <p>今天55家影院放映907场</p>
-                </div>
-                <div class="btn_mall">
-                    购票
-                </div>
-            </li>
-            <li>
-                <div class="pic_show"><img src="@/assets/LordOfTheFlies.jpeg" alt=""></div>
-                <div class="info_list">
-                    <h2>蝇王</h2>
-                    <p>观众评<span class="grade">9.2</span></p>
-                    <p>主演：Chris Furrh，Danuel Pipoly</p>
-                    <p>今天55家影院放映607场</p>
-                </div>
-                <div class="btn_mall">
-                    购票
-                </div>
-            </li>
-            <li>
-                <div class="pic_show"><img src="@/assets/TheGodFather.jpeg" alt=""></div>
-                <div class="info_list">
-                    <h2>教父</h2>
-                    <p>观众评<span class="grade">9.9</span></p>
-                    <p>主演：马龙·白兰度，阿尔·帕西诺</p>
-                    <p>今天55家影院放映907场</p>
+                    <h2>{{ item.nm }}</h2>
+                    <p>观众评<span class="grade">{{item.sc}}</span></p>
+                    <p>{{item.star}}</p>
+                    <p>{{item.showInfo}}</p>
                 </div>
                 <div class="btn_mall">
                     购票
@@ -102,7 +18,20 @@
 </template>
 <script>
     export default {
-        name: 'NowPlaying'
+        name: 'NowPlaying',
+        data(){
+            return{
+                movieList:[]
+            }
+        },
+        mounted(){
+            this.axios.get('/api/movieOnInfoList?cityId=10').then((res)=>{
+                var msg = res.data.msg;
+                if (msg === 'ok'){
+                    this.movieList = res.data.data.movieList;
+                }
+            })
+        }
     }
 </script>
 <style scoped>
