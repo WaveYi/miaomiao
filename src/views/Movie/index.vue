@@ -19,10 +19,9 @@
                 </keep-alive>
             </div>
         <TabBar></TabBar>
-        <!-- <MessageBox></MessageBox> -->
+        <router-view name="detail"></router-view>
     </div>
 </template>
-
 <script>
 import Header from '@/components/Header';
 import TabBar from '@/components/TabBar';
